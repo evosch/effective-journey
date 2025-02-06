@@ -4,8 +4,10 @@ The goal of this repo is to go back to basic, while utilizing new browser APIs. 
 
 ### Steps
 - [ ] simple frontend to submit a new article
-- [ ] store articles in indexeddb
-- [ ] list stored articles
+- [ ] service worker to catch POST
+- [ ] store articles in indexeddb in sw
+- [ ] frontend to list stored articles from indexeddb
+- [ ] connect to other webRTC
 - [ ] sync two browsers using webRTC
 - [ ] authentication
 - [ ] encryption
