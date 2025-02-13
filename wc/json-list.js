@@ -30,13 +30,12 @@ class JsonList extends HTMLElement {
     render() {
         if (!this.shadowRoot) return;
         this.shadowRoot.innerHTML = '';
-        const list = document.createElement('ul');
+        const list = document.createFragment();
         const template = this.template ? this.template.content : null;
 
         if (!template) return;
 
         this.data.forEach(item => {
-            const listItem = document.createElement('li');
             const instance = document.importNode(template, true);
 
             Object.keys(item).forEach(key => {
@@ -44,8 +43,7 @@ class JsonList extends HTMLElement {
                 if (slot) slot.textContent = item[key];
             });
 
-            listItem.appendChild(instance);
-            list.appendChild(listItem);
+            list.appendChild(instance);
         });
 
         this.shadowRoot.appendChild(list);
