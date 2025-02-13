@@ -40,7 +40,7 @@ class JsonList extends HTMLElement {
             const instance = document.importNode(template, true);
 
             Object.keys(item).forEach(key => {
-                const slot = instance.querySelector(`[slot="${key}"]`);
+                const slot = instance.querySelector(`[property="${key}"]`);
                 if (slot) slot.textContent = item[key];
             });
 
