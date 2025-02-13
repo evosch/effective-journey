@@ -13,4 +13,4 @@ The goal of this repo is to go back to basic, while utilizing new browser APIs. 
 - [ ] encryption
 
 ### Principles
-Native functionality over re-implementing, true serverless as much as possible.
+Native functionality over re-implementing, true serverless as much as possible. existing standards over defining new ones.
