@@ -11,3 +11,6 @@ The goal of this repo is to go back to basic, while utilizing new browser APIs. 
 - [ ] sync two browsers using webRTC
 - [ ] authentication
 - [ ] encryption
+
+### Principles
+Native functionality over re-implementing, true serverless as much as possible.
