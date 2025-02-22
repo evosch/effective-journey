@@ -17,5 +17,27 @@ request.onupgradeneeded = function(event) {
     const db = event.target.result;
     const objectStore = db.createObjectStore("objects", { keyPath: "@id" });
     objectStore.createIndex("@type", "@type", { unique: false });
+    const mutationStore = db.createObjectStore("mutations");
+    mutationStore.createIndex("@id", "@id", { unique: false });
 };
+
+const isObject = function(obj) {
+   return obj.constructor === Object;
+}
+
+const create = function(data) {
+   if (!isObject(data)) throw new TypeError("object expected");
+   if (!data.@type) throw new Error("Missing @type");
+   data.@id ??= self.crypto.randomUUID();
+}
+
+const update = function(id, data) {
+   if (!id) throw new Error("Missing first argument");
+   if (!isObject(data)) throw new TypeError("object expected");
+   if (data.@id) throw new Error("Unable to update @id");
+}
+
+const delete = function(id) {
+
+}
 
