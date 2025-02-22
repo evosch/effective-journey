@@ -11,6 +11,15 @@ const registerServiceWorker = async () => {
       } else if (registration.active) {
         console.log("Service worker active");
       }
+
+      const registration = await navigator.serviceWorker.ready;
+      try {
+         await registration.periodicSync.register("get-latest-news", {
+      minInterval: 15 * 60 * 1000,
+    });
+  } catch {
+    console.log("Periodic Sync could not be registered!");
+  }
     } catch (error) {
       console.error(`Registration failed with ${error}`);
     }
