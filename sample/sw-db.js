@@ -58,18 +58,14 @@ const addRecord = IDBRequestPromise("add");
 
 const updateRecord = IDBRequestPromise("put");
 
-const create = function(data) {
+const create = async function(data) {
    if (!isObject(data)) throw new TypeError("object expected");
    if (!data.@type) throw new Error("Missing @type");
    data.@id ??= self.crypto.randomUUID();
-
-   const transaction = db.transaction("objects", "readwrite");
-   transaction.onerror = () => {
-   }
-   transaction.oncomplete = () => {
-   }
-   const objectStore = transaction.objectStore("objects");
-   const request = store.add(data);
+   
+   await transaction(["objects", "mutations"], "readwrite", async (trans) => {
+       addRecord(trans, "objects", data);
+   });
 }
 
 const update = function(id, data) {
@@ -77,10 +73,10 @@ const update = function(id, data) {
    if (!isObject(data)) throw new TypeError("object expected");
    if (data.@id) throw new Error("Unable to update @id");
 
-   const transaction = db.transaction(["objects", "mutations"], "readwrite");
-   const objectStore = transaction.objectStore("objects");
-   const request = store.get(id);
-   
+   await transaction(["objects", "mutations"], "readwrite", async (trans) => {
+       putRecord(trans, "objects", data);
+       addRecord(trans, "mutations", data);
+   });
 }
 
 const delete = function(id) {
