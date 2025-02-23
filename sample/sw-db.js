@@ -25,6 +25,24 @@ const isObject = function(obj) {
    return obj.constructor === Object;
 }
 
+const transaction = function(stores, mode, callback) {
+   
+}
+
+
+const getRecord = function(store, id) {
+   return new Promise((resolve, reject) => {
+   });
+}
+
+const addRecord = function(store, data) {
+   
+}
+
+const updateRecord = function(store, id, data) {
+
+}
+
 const create = function(data) {
    if (!isObject(data)) throw new TypeError("object expected");
    if (!data.@type) throw new Error("Missing @type");
@@ -43,6 +61,11 @@ const update = function(id, data) {
    if (!id) throw new Error("Missing first argument");
    if (!isObject(data)) throw new TypeError("object expected");
    if (data.@id) throw new Error("Unable to update @id");
+
+   const transaction = db.transaction(["objects", "mutations"], "readwrite");
+   const objectStore = transaction.objectStore("objects");
+   const request = store.get(id);
+   
 }
 
 const delete = function(id) {
