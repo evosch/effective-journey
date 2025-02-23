@@ -39,9 +39,8 @@ const transaction = function(stores, mode, callback) {
 }
 
 const IDBRequestPromise = function(method) {
-   return (trans, store, ...args) => {
+   return (store, ...args) => {
    return new Promise((resolve, reject) => {
-      const store = trans.objectStore(store);
       const request = store[method](...args);
       request.onsuccess = () => {
          resolve(request.result);
@@ -64,7 +63,15 @@ const create = async function(data) {
    data.@id ??= self.crypto.randomUUID();
    
    await transaction(["objects", "mutations"], "readwrite", async (trans) => {
-       addRecord(trans, "objects", data);
+            const store = return new Promise((resolve, reject) => {
+      await addRecord(
+        trans.objectStore("objects"),
+        data,
+      );
+      await addRecord(
+        trans.objectStore("mutations"),
+        data,
+      );
    });
 }
 
@@ -74,7 +81,10 @@ const update = function(id, data) {
    if (data.@id) throw new Error("Unable to update @id");
 
    await transaction(["objects", "mutations"], "readwrite", async (trans) => {
-       putRecord(trans, "objects", data);
+       putRecord(
+         trans.objectStore("objects"),
+         data,
+       );
        addRecord(trans, "mutations", data);
    });
 }
