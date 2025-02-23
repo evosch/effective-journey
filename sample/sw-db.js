@@ -26,22 +26,37 @@ const isObject = function(obj) {
 }
 
 const transaction = function(stores, mode, callback) {
-   
+   return new Promise((resolve, reject) => {
+      const transaction = db.transaction("objects", "readwrite");
+      transaction.onerror = () => {
+         reject();
+   }
+      transaction.oncomplete = () => {
+         resolve();
+      }
+      callback(transaction);
+   }
 }
 
-
-const getRecord = function(store, id) {
+const IDBRequestPromise = function(method) {
+   return (trans, store, ...args) => {
    return new Promise((resolve, reject) => {
+      const store = trans.objectStore(store);
+      const request = store[method](...args);
+      request.onsuccess = () => {
+         resolve(request.result);
+      }
+      request.onerror = () => {
+         reject();
+      }
    });
 }
 
-const addRecord = function(store, data) {
-   
-}
+const getRecord = IDBRequestPromise("get");
 
-const updateRecord = function(store, id, data) {
+const addRecord = IDBRequestPromise("add");
 
-}
+const updateRecord = IDBRequestPromise("put");
 
 const create = function(data) {
    if (!isObject(data)) throw new TypeError("object expected");
