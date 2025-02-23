@@ -81,11 +81,19 @@ const update = function(id, data) {
    if (data.@id) throw new Error("Unable to update @id");
 
    await transaction(["objects", "mutations"], "readwrite", async (trans) => {
-       putRecord(
+       const objectStore = trans.objectStore("objects");
+       const record = await getRecord(
+         objectStore,
+         id,
+       );
+       await putRecord(
          trans.objectStore("objects"),
          data,
        );
-       addRecord(trans, "mutations", data);
+       await addRecord(
+         trans.objectStore("mutations"),
+         data,
+       );
    });
 }
 
