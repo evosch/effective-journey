@@ -29,6 +29,14 @@ const create = function(data) {
    if (!isObject(data)) throw new TypeError("object expected");
    if (!data.@type) throw new Error("Missing @type");
    data.@id ??= self.crypto.randomUUID();
+
+   const transaction = db.transaction("objects", "readwrite");
+   transaction.onerror = () => {
+   }
+   transaction.oncomplete = () => {
+   }
+   const objectStore = transaction.objectStore("objects");
+   const request = store.add(data);
 }
 
 const update = function(id, data) {
@@ -38,6 +46,6 @@ const update = function(id, data) {
 }
 
 const delete = function(id) {
-
+   update(id, {});
 }
 
