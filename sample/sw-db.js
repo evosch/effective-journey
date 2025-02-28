@@ -63,7 +63,6 @@ const create = async function(data) {
    data.@id ??= self.crypto.randomUUID();
    
    await transaction(["objects", "mutations"], "readwrite", async (trans) => {
-            const store = return new Promise((resolve, reject) => {
       await addRecord(
         trans.objectStore("objects"),
         data,
@@ -87,7 +86,8 @@ const update = function(id, data) {
          id,
        );
        await putRecord(
-         trans.objectStore("objects"),
+         objectStore,
+         id,
          data,
        );
        await addRecord(
