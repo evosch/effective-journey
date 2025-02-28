@@ -85,7 +85,7 @@ const update = function(id, data) {
          objectStore,
          id,
        );
-       await putRecord(
+       await updateRecord(
          objectStore,
          id,
          data,
